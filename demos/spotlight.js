@@ -1,27 +1,39 @@
 "use strict";
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 /**
-SpotlightJS: a highlighting/instructions plugin for JS
-Developed by Alvaro Montoro (alvaromontoro@gmail.com)
-More info: https://github.com/alvaromontoro/spotlightjs
+SpotlightJS: a highlighting/instructions plugin for JS.
+Developed by Alvaro Montoro. More info: https://github.com/alvaromontoro/spotlightjs
 **/
 var SpotlightJS = function SpotlightJS(options) {
   var _this = this;
 
-	// starts the spotlight from the first step
+  _classCallCheck(this, SpotlightJS);
+
+  this.hideSpotlight = function () {
+    _this.frame.style.display = "none";
+    var body = document.querySelector('body');
+    body.classList.remove('hideScrollY');
+  };
+
+  this.showSpotlight = function () {
+    var body = document.querySelector('body');
+    _this.frame.style.display = "block";
+    body.classList.add('hideScrollY');
+  };
+
   this.start = function () {
     if (_this.hasSteps()) {
-      _this.frame.style.display = "block";
+      _this.showSpotlight();
       _this.goToFirstStep();
     }
   };
 
-  // stops the spotlight
   this.stop = function () {
-    _this.frame.style.display = "none";
+    _this.hideSpotlight();
   };
 
-  // animates to the indicated step
   this.goToStep = function (step) {
     if (_this.hasSteps()) {
       if (!isNaN(step) && step > -1 && step < _this.steps.length) {
@@ -32,8 +44,8 @@ var SpotlightJS = function SpotlightJS(options) {
           var elRect = el.getBoundingClientRect();
           _this.spot.style.width = elRect.width + 20 + "px";
           _this.spot.style.height = elRect.height + 20 + "px";
-          _this.spot.style.top = (elRect.top + elRect.height/2) + "px";
-          _this.spot.style.left = (elRect.left + elRect.width/2) + "px";
+          _this.spot.style.top = elRect.top + elRect.height / 2 + "px";
+          _this.spot.style.left = elRect.left + elRect.width / 2 + "px";
           _this.spot.classList.add("spjs-step-" + step); // to allow user styling specific to each step
           _this.textContent.textContent = _this.steps[step].text;
           if (_this.previousButton) _this.previousButton.style.display = _this.current == 0 ? "none" : "inline-block";
@@ -43,12 +55,10 @@ var SpotlightJS = function SpotlightJS(options) {
     }
   };
 
-  // animates to the first step
   this.goToFirstStep = function () {
     _this.goToStep(0);
   };
 
-  // animates to the next step or ends spotlight if in last step
   this.goToNextStep = function () {
     if (_this.current == _this.steps.length - 1) {
       _this.stop();
@@ -58,44 +68,36 @@ var SpotlightJS = function SpotlightJS(options) {
     }
   };
 
-  // animates back to the previous step
   this.goToPreviousStep = function () {
     if (_this.current > 0) {
       _this.goToStep(_this.current - 1);
     }
   };
 
-  // indicates if the instructions have any step in them
   this.hasSteps = function () {
     return _this.init != "" && _this.steps.length > 0;
   };
 
-  // returns the selector for the element that is being highlighted
   this.currentElementSelector = function () {
     return _this.steps[_this.current].selector;
   };
 
-  // returns the DOM element that is being highlighted at the moment
   this.currentElement = function () {
     return document.querySelector(_this.currentElementSelector());
   };
 
-  // returns the text associated to the current step
   this.getText = function () {
     return _this.steps[_this.current].text;
   };
 
-  // returns the current step (1..n)
   this.getStep = function () {
     return _this.current + 1;
   };
 
-  // returns the total number of steps in the instructions
   this.getTotalSteps = function () {
     return _this.steps.length + 1;
   };
 
-  // initial variables with default values
   this.init = "";
   this.shape = "round";
   this.color = "rgba(0,0,0,0.4)";
@@ -223,8 +225,46 @@ var SpotlightJS = function SpotlightJS(options) {
     $this.goToStep($this.current);
   });
 
-  // make the plugin initialize automatically on click
+  // make the plugin initialize automatically on click of first element
   if (this.initTrigger) {
     document.querySelector(this.init).addEventListener("click", this.start);
   }
-};
+}
+
+/** start with the first step of the instructions */
+
+
+/** end the instructions: hide everything */
+
+
+/** go to the specified step in the instructions */
+
+
+/** go to the first step of the instructions */
+
+
+/** go to the next step of the instructions */
+
+
+/** go to the next step of the instructions */
+
+
+/** indicates if the instructions have any steps to show (as a whole) */
+
+
+/** returns the identifier of the current element */
+
+
+/** returns the currently highlighted element */
+
+
+/** returns the text of the currently highlighted element */
+
+
+/** returns the current step */
+
+
+/** returns the total number of steps */
+;
+
+;
